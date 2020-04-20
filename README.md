@@ -1,33 +1,33 @@
-#Project TenPinBowling
+# Project TenPinBowling
 
-##Basically
+## Basically
 To compile this project basically need JAVA with a version major than 8 and maven, to code I use maven3 and java 8.
 
-##Unit Test
+## Unit Test
 Run
 ```
 $ mvn test
 ```
 
-##Integration Test
+## Integration Test
 Run
 ```
 $ mvn verify
 ```
 It verifies four cases. An example of 2 players, a perect game, a zero score game and an invalid one.
 
-##GIT
+## GIT
 [TenPinBowling](https://github.com/juanmapaniego/TenPinBowling/)
 
 ## Whats in source 
 In source we can find some basic classes.
-####BowlingFrame
+#### BowlingFrame
 It class is created for manage each section of bowling score.
-####BowlingPlayer 
+#### BowlingPlayer 
 It class handle the data of each player game.
-####Parser
+#### Parser
 In it we parse te data file to player data. And throws excecpcion in case some parse error.
-####Printer
+#### Printer
 It handle the print of result of the list of ṕlayers.
 
 
