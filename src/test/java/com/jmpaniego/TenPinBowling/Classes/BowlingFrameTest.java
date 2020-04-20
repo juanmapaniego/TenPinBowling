@@ -1,8 +1,11 @@
 package com.jmpaniego.TenPinBowling.Classes;
 
+import com.jmpaniego.TenPinBowling.Utils.Constants;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+
+import javax.naming.CompositeName;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,8 +15,8 @@ class BowlingFrameTest {
     @Test
     void isSpareTest(){
         BowlingFrame bowlingFrame = new BowlingFrame();
-        bowlingFrame.setRoll("7");
-        bowlingFrame.setRoll("3");
+        assertDoesNotThrow(() -> bowlingFrame.setRoll("7"));
+        assertDoesNotThrow(() -> bowlingFrame.setRoll("3"));
         assertTrue(bowlingFrame.isSpare());
 
         assertTrue(bowlingFrame.isComplete());
@@ -22,10 +25,19 @@ class BowlingFrameTest {
     @Test
     void isStrikeTest(){
         BowlingFrame bowlingFrame = new BowlingFrame();
-        bowlingFrame.setRoll("10");
+        assertDoesNotThrow(() -> bowlingFrame.setRoll("10"));
         assertTrue(bowlingFrame.isStrike());
 
         assertTrue(bowlingFrame.isComplete());
+    }
+
+    @Test
+    @DisplayName("Not valid Test")
+    void notValidFrameTest(){
+        BowlingFrame bowlingFrame = new BowlingFrame();
+        bowlingFrame.setFrameNumber(Constants.FIRST_FRAME);
+        assertThrows(RuntimeException.class, () -> bowlingFrame.setRoll("11"), "Not Valid frame, must throw" );
+
     }
 
     @Test

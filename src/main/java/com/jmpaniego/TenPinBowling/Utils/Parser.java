@@ -55,7 +55,7 @@ public class Parser implements IParser {
     }*/
 
     @Override
-    public List<BowlingPlayer> getPlayers() throws IOException{
+    public List<BowlingPlayer> getPlayers() throws Exception{
         Map<String, List<String>> filePlayers = getMapFile();
 
         List<BowlingPlayer> bowlingPlayers = getNames(filePlayers);
@@ -66,18 +66,22 @@ public class Parser implements IParser {
                     stream().
                     forEach(r -> {
                         //short point = r.equals(Constants.FOUL)?0:Short.parseShort(r);
-                        BowlingFrame last = null;
-                        short frameNumber;
-                        if(actualPlayer.getFrames().size() != 0) {
-                            last = actualPlayer.getFrames().get(actualPlayer.getFrames().size() - 1);
-                            frameNumber = (short) (last.getFrameNumber() + 1);
-                        }else{
-                            frameNumber = Constants.FIRST_FRAME;
-                        }
-                        if((last != null) && (!last.isComplete())) {
-                            last.setRoll(r);
-                        }else{
-                            actualPlayer.getFrames().add(new BowlingFrame(frameNumber,r));
+                        try{
+                            BowlingFrame last = null;
+                            short frameNumber;
+                            if(actualPlayer.getFrames().size() != 0) {
+                                last = actualPlayer.getFrames().get(actualPlayer.getFrames().size() - 1);
+                                frameNumber = (short) (last.getFrameNumber() + 1);
+                            }else{
+                                frameNumber = Constants.FIRST_FRAME;
+                            }
+                            if((last != null) && (!last.isComplete())) {
+                                last.setRoll(r);
+                            }else{
+                                actualPlayer.getFrames().add(new BowlingFrame(frameNumber,r));
+                            }
+                        }catch (RuntimeException e){
+                            throw e;
                         }
                     });
         }

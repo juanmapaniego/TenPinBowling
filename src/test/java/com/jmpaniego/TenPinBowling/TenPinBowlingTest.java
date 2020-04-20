@@ -27,7 +27,7 @@ class TenPinBowlingIT {
             assertEquals(10, bowlingPlayerList.get(0).getFrames().size());
 
 
-        }catch (IOException e){
+        }catch (Exception e){
             fail(e.getMessage());
         }
 
@@ -45,9 +45,19 @@ class TenPinBowlingIT {
             assertEquals(2, bowlingPlayerList.size());
 
             assertEquals(10, bowlingPlayerList.get(0).getFrames().size());
-        }catch (IOException e){
+        }catch (Exception e){
             fail(e.getMessage());
         }
 
+    }
+
+    @Test
+    void invalidTest(){
+        String resourceName = "invalid.txt";
+        ClassLoader classLoader = getClass().getClassLoader();
+
+        IParser parser = new Parser();
+        assertDoesNotThrow(()->parser.readFile(classLoader.getResource(resourceName).getFile()));
+        assertThrows(RuntimeException.class,()->parser.getPlayers(),"Must throw an exection");
     }
 }

@@ -22,7 +22,7 @@ public class BowlingFrame implements Comparable<BowlingFrame> {
         this.rollNumber = 0;
     }
 
-    public BowlingFrame(short frameNumber, String point) {
+    public BowlingFrame(short frameNumber, String point) throws RuntimeException{
         this.actualScore = 0;
         this.frameNumber = frameNumber;
         this.roll = new String[]{"0", "0", "0"};
@@ -78,8 +78,10 @@ public class BowlingFrame implements Comparable<BowlingFrame> {
         this.setComplete();
         this.updateActualScore();
     }*/
-    public void setRoll(String point){
+    public void setRoll(String point) throws RuntimeException{
         this.roll[this.rollNumber++] = point;
+        if(isNotValid())
+            throw new RuntimeException("Rolls points are incorrect");
         this.setComplete();
         this.updateActualScore();
     }
@@ -101,6 +103,16 @@ public class BowlingFrame implements Comparable<BowlingFrame> {
                 complete = true;
             else
                 complete=false;
+        }
+    }
+
+    private boolean isNotValid() {
+        if(sumPoints() > 10 && this.frameNumber != Constants.MAX_FRAMES){
+            return true;
+        }else{
+            if(sumPoints() > 30)
+                return true;
+            return false;
         }
     }
 
