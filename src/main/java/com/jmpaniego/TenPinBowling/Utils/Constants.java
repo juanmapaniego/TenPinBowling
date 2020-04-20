@@ -9,7 +9,6 @@ public class Constants {
     public static final String ROW_SEPARATOR = " ";
     public static final String FOUL = "F";
     public static final int MINIMUM_FILE_LINES = 11;
-
-    //CUSTOM EXECPTIONS CODES
-
+    public static final int MAX_POINT_EACH_FRAME = 10;
+    public static final int MAX_POINT_LAST_FRAME = 10;
 }

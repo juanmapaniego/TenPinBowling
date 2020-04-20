@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Printer {
+public class Printer implements IPrinter{
     private PrintStream originalPrintStream;
     private PrintStream printStream;
 
@@ -15,23 +15,18 @@ public class Printer {
         originalPrintStream = System.out;
     }
 
+    @Override
     public PrintStream getPrintStream() {
         return printStream;
     }
 
+    @Override
     public void setPrintStream(String filename) throws FileNotFoundException, SecurityException {
         FileOutputStream file = new FileOutputStream(filename);
         this.printStream = new PrintStream(file);
     }
 
-    /*public void writeHeader(){
-        String header = IntStream.rangeClosed(Constants.FIRST_FRAME,Constants.MAX_FRAMES).
-                mapToObj(f -> ((Integer)f).toString()).
-                collect(Collectors.joining(Constants.ROW_SEPARATOR + Constants.ROW_SEPARATOR));
-        header = "Frame\t\t" + header;
-        System.out.println(header);
-    }*/
-
+    @Override
     public void writeHeader(){
         StringBuilder header = new StringBuilder("Frame");
         header.append(Constants.ROW_SEPARATOR);
@@ -44,7 +39,8 @@ public class Printer {
         System.out.println(header.toString());
     }
 
-    public void writeList(List<?> lista){
-        lista.stream().forEach(System.out::println);
+    @Override
+    public void writeList(List<?> list){
+        list.stream().forEach(System.out::println);
     }
 }

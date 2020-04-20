@@ -35,25 +35,6 @@ public class Parser implements IParser {
         return lines.stream();
     }
 
-    /*@Override
-    public List<BowlingPlayer> getPlayers() {
-        try {
-            List<BowlingPlayer> players = lines.map(l -> l.split(Constants.ROW_SEPARATOR)[0]).
-                    distinct().
-                    map(p -> new BowlingPlayer(p)).
-                    collect(Collectors.toList());
-            for(BowlingPlayer actualPlayer: players){
-                System.out.println(actualPlayer.getPlayerName());
-                lines.filter(l -> (l.split(Constants.ROW_SEPARATOR)[0]).equals(actualPlayer.getPlayerName())).
-                        forEach(p -> System.out.println("\t"+p));
-            }
-            return players;
-        }catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
-    }*/
-
     @Override
     public List<BowlingPlayer> getPlayers() throws Exception{
         Map<String, List<String>> filePlayers = getMapFile();

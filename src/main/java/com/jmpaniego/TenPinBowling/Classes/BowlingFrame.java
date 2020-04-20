@@ -1,15 +1,15 @@
 package com.jmpaniego.TenPinBowling.Classes;
 
 import com.jmpaniego.TenPinBowling.Utils.Constants;
-
-import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class BowlingFrame implements Comparable<BowlingFrame> {
     private short frameNumber;
     private short rollNumber;
     private String[] roll;
-    //private int[] roll;
+    /* roll represents points, each pos is one roll of the game frame.
+     If the frame number is the last one, roll[2] hold the last throw if exist,
+     other case it hold the first throw of the next frame if it neccesary */
     private boolean complete;
     private Integer actualScore;
     private Integer acumulatedScore;
@@ -17,7 +17,6 @@ public class BowlingFrame implements Comparable<BowlingFrame> {
     public BowlingFrame() {
         this.actualScore = 0;
         this.complete = false;
-        //this.roll = new int[]{0, 0, 0};
         this.roll = new String[]{"0", "0", "0"};
         this.rollNumber = 0;
     }
@@ -38,10 +37,6 @@ public class BowlingFrame implements Comparable<BowlingFrame> {
         this.frameNumber = frameNumber;
     }
 
-    public Integer getActualScore() {
-        return actualScore;
-    }
-
     private void updateActualScore(){
         this.actualScore = this.sumPoints();
     }
@@ -55,10 +50,8 @@ public class BowlingFrame implements Comparable<BowlingFrame> {
     }
 
     private int sumPoints() {
-        //return Arrays.stream(roll).reduce(0, (a, b) -> a + b);
         return IntStream.range(0,roll.length).map(i -> to_number(roll[i])).sum();
     }
-
 
     public boolean isStrike() {
         return frameNumber != Constants.MAX_FRAMES && to_number(roll[0]) == 10;
@@ -72,12 +65,6 @@ public class BowlingFrame implements Comparable<BowlingFrame> {
         return this.complete;
     }
 
-
-    /*public void setRoll(int point){
-        this.roll[this.rollNumber++] = point;
-        this.setComplete();
-        this.updateActualScore();
-    }*/
     public void setRoll(String point) throws RuntimeException{
         this.roll[this.rollNumber++] = point;
         if(isNotValid())
@@ -107,6 +94,10 @@ public class BowlingFrame implements Comparable<BowlingFrame> {
     }
 
     private boolean isNotValid() {
+        for(int i = 0; i< rollNumber; i++){
+            if(to_number(roll[i]) > Constants.MAX_POINT_EACH_FRAME)
+                return true;
+        }
         if(sumPoints() > 10 && this.frameNumber != Constants.MAX_FRAMES){
             return true;
         }else{
@@ -115,37 +106,6 @@ public class BowlingFrame implements Comparable<BowlingFrame> {
             return false;
         }
     }
-
-    /*@Override
-    public String toString() {
-        String res = "";
-        if(frameNumber != Constants.MAX_FRAMES) {
-            if (this.isStrike()) {
-                res += "\tX\t";
-            }else{
-                res += roll[Constants.FIRST_ROLL]+"\t";
-                if(this.isSpare()){
-                    res += "/\t";
-                }else{
-                    res += roll[Constants.SECOND_ROLL]+"\t";
-                }
-            }
-        }else{
-            res += roll[Constants.FIRST_ROLL]=="10"?"X\t":roll[Constants.FIRST_ROLL]+"\t";
-            res += roll[Constants.SECOND_ROLL]=="10"?"X\t":roll[Constants.SECOND_ROLL]+"\t";
-            res += roll[Constants.EXTRA_ROLL]=="10"?"X\t":roll[Constants.EXTRA_ROLL]+"\t";
-        }
-        return res;
-
-        return "BowlingFrame{" +
-                "frameNumber=" + frameNumber +
-                ", roll1=" + roll[0] +
-                ", roll2=" + roll[1] +
-                ", extra=" + roll[2] +
-                ", complete=" + complete +
-                ", actualScore=" + actualScore +
-                '}';
-    }*/
 
     @Override
     public String toString() {
@@ -204,12 +164,8 @@ public class BowlingFrame implements Comparable<BowlingFrame> {
         return r1-r2;
     }
 
-    /*public void setSpecialRoll(int x){
-        this.roll[2] = x;
-    }*/
-
     public void setSpecialRoll(String x){
-        this.roll[2] = x;
+        this.roll[Constants.EXTRA_ROLL] = x;
     }
 
     public Integer getAcumulatedScore() {

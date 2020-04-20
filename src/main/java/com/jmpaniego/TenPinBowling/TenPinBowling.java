@@ -1,10 +1,7 @@
 package com.jmpaniego.TenPinBowling;
 
 import com.jmpaniego.TenPinBowling.Classes.BowlingPlayer;
-import com.jmpaniego.TenPinBowling.Utils.IParser;
-import com.jmpaniego.TenPinBowling.Utils.Parser;
-import com.jmpaniego.TenPinBowling.Utils.Printer;
-
+import com.jmpaniego.TenPinBowling.Utils.*;
 import java.util.List;
 
 
@@ -20,7 +17,7 @@ public class TenPinBowling {
             IParser parser = new Parser();
             parser.readFile(filename);
             List<BowlingPlayer> bowlingPlayers = parser.getPlayers();
-            Printer printer = new Printer();
+            IPrinter printer = new Printer();
             printer.writeHeader();
             printer.writeList(bowlingPlayers);
         }catch (Exception e){
