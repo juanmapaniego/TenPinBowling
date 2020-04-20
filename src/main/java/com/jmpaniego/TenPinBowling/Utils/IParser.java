@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface IParser {
     void readFile(String path) throws IOException;
-    List<BowlingPlayer> getPlayers();
+    List<BowlingPlayer> getPlayers() throws IOException;
 }

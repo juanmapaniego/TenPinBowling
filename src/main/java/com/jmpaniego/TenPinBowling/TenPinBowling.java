@@ -1,54 +1,31 @@
 package com.jmpaniego.TenPinBowling;
 
-import com.jmpaniego.TenPinBowling.Classes.BowlingFrame;
 import com.jmpaniego.TenPinBowling.Classes.BowlingPlayer;
 import com.jmpaniego.TenPinBowling.Utils.IParser;
 import com.jmpaniego.TenPinBowling.Utils.Parser;
+import com.jmpaniego.TenPinBowling.Utils.Printer;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+
 
 public class TenPinBowling {
     public static void main(String[] args) {
-        String filename = "/home/jmpaniego/lines.txt";
-        /*try {
-            /*Files.lines(Paths.get(filename)).
-                    map(l -> l.split(" ")[0]).
-                    distinct().
-                    forEach(System.out::println);*/
-            /*Map<Object, List<Object>> filePlayers = Files.lines(Paths.get(filename)).
-                    collect(Collectors.groupingBy(
-                                l->l.split(" ")[0],
-                                Collectors.mapping(l->l.split(" ")[1],Collectors.toList())
-                            )
-                    );
-            List<BowlingPlayer> bowlingplayers = new ArrayList<>();
-            BowlingPlayer player;
-            for (Map.Entry<Object, List<Object>> entry : filePlayers.entrySet()) {
-                player = new BowlingPlayer();
-                player.setPlayerName(entry.getKey().toString());
-
-                System.out.println(entry.getValue().size());
-                //entry.getValue().stream().forEach(p -> System.out.println("\t"+p));
-                bowlingplayers.add(player);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }*/
+        if(args.length == 0) {
+            System.out.println("Cannot execute without arg");
+            System.out.println("\tSample: *.jar arg");
+            System.exit(1);
+        }
+        String filename = args[0];
         try{
             IParser parser = new Parser();
             parser.readFile(filename);
-            for(BowlingPlayer player : parser.getPlayers()){
-                System.out.println(player.getPlayerName());
-                System.out.println(player.getFrames().size());
-                player.getFrames().stream().forEach(System.out::println);
-            }
+            List<BowlingPlayer> bowlingPlayers = parser.getPlayers();
+            Printer printer = new Printer();
+            printer.writeHeader();
+            printer.writeList(bowlingPlayers);
         }catch (Exception e){
-            e.printStackTrace();
-            System.out.print("Error");
+            System.out.println("Error ");
+            System.out.println("\t" + e.getMessage());
         }
-
     }
 }
