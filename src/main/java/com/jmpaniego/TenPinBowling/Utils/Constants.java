@@ -6,7 +6,7 @@ public class Constants {
     public static final short EXTRA_ROLL = 2;
     public static final short FIRST_FRAME = 1;
     public static final int MAX_FRAMES = 10;
-    public static final String ROW_SEPARATOR = " ";
+    public static final String ROW_SEPARATOR = "\t";
     public static final String FOUL = "F";
     public static final int MINIMUM_FILE_LINES = 11;
     public static final int MAX_POINT_EACH_FRAME = 10;

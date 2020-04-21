@@ -1,5 +1,5 @@
 Jeff	10
-John	10
+John	20
 Jeff	10
 John	10
 Jeff	10

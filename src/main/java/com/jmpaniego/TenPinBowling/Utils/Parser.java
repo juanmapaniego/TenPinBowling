@@ -36,7 +36,7 @@ public class Parser implements IParser {
     }
 
     @Override
-    public List<BowlingPlayer> getPlayers() throws Exception{
+    public List<BowlingPlayer> getPlayers() throws RuntimeException, Exception{
         Map<String, List<String>> filePlayers = getMapFile();
 
         List<BowlingPlayer> bowlingPlayers = getNames(filePlayers);
@@ -80,13 +80,17 @@ public class Parser implements IParser {
                 collect(Collectors.toList());
     }
 
-    private Map<String, List<String>> getMapFile(){
-       return getLines().
-                collect(Collectors.groupingBy(
-                        l->l.split(Constants.ROW_SEPARATOR)[0],
-                        Collectors.mapping(l->l.split(Constants.ROW_SEPARATOR)[1],Collectors.toList())
-                        )
-                );
+    private Map<String, List<String>> getMapFile() throws ArrayIndexOutOfBoundsException{
+       try {
+           return getLines().
+                   collect(Collectors.groupingBy(
+                           l -> l.split(Constants.ROW_SEPARATOR)[0],
+                           Collectors.mapping(l -> l.split(Constants.ROW_SEPARATOR)[1], Collectors.toList())
+                           )
+                   );
+       }catch (ArrayIndexOutOfBoundsException e){
+           throw new ArrayIndexOutOfBoundsException("Malformed file: Each row must have name of player and score separated by SEPARATORt");
+       }
     }
 
     private void updateScore(List<BowlingPlayer> bowlingPlayers) throws IOException{

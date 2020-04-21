@@ -176,8 +176,12 @@ public class BowlingFrame implements Comparable<BowlingFrame> {
         this.acumulatedScore = acumulatedScore + actualScore;
     }
 
-    private int to_number(String roll){
-        return roll.equals(Constants.FOUL)?0:Integer.parseInt(roll);
+    private int to_number(String roll) {
+        try {
+            return roll.equals(Constants.FOUL)?0:Integer.parseInt(roll);
+        }catch (NumberFormatException e) {
+            throw new NumberFormatException("Malformed File: Score are incorrect");
+        }
     }
 
 }

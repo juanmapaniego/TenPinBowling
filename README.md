@@ -3,6 +3,15 @@
 ## Basically
 To compile this project basically need JAVA with a version major than 8 and maven, to code I use maven3 and java 8.
 
+## Build
+Run
+```
+$ cd TenPinBowling {projectFolder}
+$ mvn package
+```
+
+
+
 ## Unit Test
 Run
 ```

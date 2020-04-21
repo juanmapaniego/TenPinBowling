@@ -53,11 +53,37 @@ class TenPinBowlingIT {
 
     @Test
     void invalidTest(){
-        String resourceName = "invalid.txt";
+        String resourceName_invalid = "invalidScore.txt";
+        String resourceName_malformed = "malformed.txt";
+        String resourceName_frames = "invalidNumberOfFrames.txt";
         ClassLoader classLoader = getClass().getClassLoader();
 
         IParser parser = new Parser();
-        assertDoesNotThrow(()->parser.readFile(classLoader.getResource(resourceName).getFile()));
+        assertDoesNotThrow(()->parser.readFile(classLoader.getResource(resourceName_invalid).getFile()));
         assertThrows(RuntimeException.class,()->parser.getPlayers(),"Must throw an exection");
+
+
+        assertDoesNotThrow(()->parser.readFile(classLoader.getResource(resourceName_malformed).getFile()));
+        assertThrows(ArrayIndexOutOfBoundsException.class,()->parser.getPlayers(),"Must throw an exection");
+
+        assertThrows(IOException.class,()->parser.readFile(classLoader.getResource(resourceName_frames).getFile()));
+    }
+
+    @Test
+    void zeroTest(){
+        String resourceName = "2Player_1zero.txt";
+        ClassLoader classLoader = getClass().getClassLoader();
+
+        IParser parser = new Parser();
+        try{
+            parser.readFile(classLoader.getResource(resourceName).getFile());
+            List<BowlingPlayer> bowlingPlayerList = parser.getPlayers();
+
+            assertEquals(2, bowlingPlayerList.size());
+            assertEquals(0,bowlingPlayerList.get(1).getFinalScore());
+        }catch(Exception e){
+            fail(e.getMessage());
+        }
+
     }
 }
